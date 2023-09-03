@@ -1,0 +1,35 @@
+services:
+  redis:
+    image: redis
+  app:
+    build:
+      context: .
+    environment:
+      FLASK_APP: app
+      FLASK_DEBUG: 1
+    volumes:
+      - .:/app
+    command: flask run -h 0.0.0.0
+    ports:
+      - 5000:5000
+
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+      
+  celery:
+    build:
+      context: .
+    environment:
+      FLASK_APP: app
+    volumes:
+      - .:/app
+    command: celery -A app.celery worker --loglevel=info
+    depends_on:
+      - app
+      - redis
