@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+    restart: always
     environment:
       FLASK_APP: app
       FLASK_DEBUG: 1
@@ -12,6 +13,8 @@ services:
     command: flask run -h 0.0.0.0
     ports:
       - 5000:5000
+    depends_on:
+      - db
 
   db:
     image: mysql
@@ -25,6 +28,7 @@ services:
   celery:
     build:
       context: .
+    restart: always
     environment:
       FLASK_APP: app
     volumes:
