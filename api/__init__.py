@@ -42,8 +42,8 @@ def create_app(environment):
         app.config["CELERY_CONFIG"] = {"broker_url": "redis://redis", "result_backend": "redis://redis"}
         global engine
         engine = create_engine(
-            # "mysql+pymysql://root:root@0.0.0.0:3306/local_db",
-            "mysql+pymysql://freedb_sql12643999:z&g?k2v&Wdn87M?@sql.freedb.tech:3306/freedb_local_db",
+            "mysql+pymysql://root:root@db:3306/local_db",
+            # "mysql+pymysql://freedb_sql12643999:z&g?k2v&Wdn87M?@sql.freedb.tech:3306/freedb_local_db",
             echo=True,
             pool_pre_ping=True
         )
